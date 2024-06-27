@@ -62,8 +62,9 @@ docker build -t onurklngc/order-processor:0.0.1 -f Dockerfile .
 
 docker stop $ORDER_PROCESSOR_CONTAINER_NAME && docker rm $ORDER_PROCESSOR_CONTAINER_NAME
 
-docker run --name $ORDER_PROCESSOR_CONTAINER_NAME onurklngc/order-processor:0.0.1 \
--v ${ORDER_PROCESSOR_SETTINGS_PATH}:/settings.py
+docker run --name $ORDER_PROCESSOR_CONTAINER_NAME -v ${ORDER_PROCESSOR_SETTINGS_PATH}:/settings.py \
+onurklngc/order-processor:0.0.1
+
 ```
 
 

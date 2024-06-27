@@ -7,7 +7,7 @@ import MySQLdb
 import pika
 
 import settings as s
-from order_processor.src.models import OrderStatus
+from src.models import OrderStatus
 
 GET_STATUS_QUERY = "SELECT `status` FROM `ordering_order` WHERE (`id` = %s)"
 UPDATE_QUERY = "UPDATE `ordering_order` SET `status` = %s WHERE (`id` = %s)"

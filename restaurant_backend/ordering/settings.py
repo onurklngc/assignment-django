@@ -1,0 +1,4 @@
+RABBITMQ_HOST = '172.17.0.1'
+RABBITMQ_PORT = 5672
+QUEUE_NAME = "restaurant"
+

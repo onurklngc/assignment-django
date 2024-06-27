@@ -1,7 +1,7 @@
 # Django App with RabbitMQ Integration
 ## Environment Setup
-### Setting up mysql server
-To start the mysql docker container, run the following on terminal:
+### Setting up MySQL Server
+To start the MySQL Docker container, run the following commands in your terminal:
 ```
 export MYSQL_CONTAINER_NAME=mysql-db
 export MYSQL_ROOT_PASSWORD=pswd 
@@ -9,33 +9,24 @@ export MYSQL_PORT=3307
 docker run -p ${MYSQL_PORT}:3306 --detach --name=$MYSQL_CONTAINER_NAME --env="MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" mysql
 ```
 
-Wait around 10 seconds for mysql server to be ready, then run the following command to create database schema for our backend server.
-
-`
+Wait approximately 10 seconds for the MySQL server to be ready, then create the database schema for the backend server with the following command:
+```sh
 docker exec -i $MYSQL_CONTAINER_NAME mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE restaurant CHARACTER SET utf8;"
-`
-
-sudo apt install default-libmysqlclient-dev
+```
 
 ### Setting up RabbitMQ
-To start RabbitMQ
-```
+To start RabbitMQ, run the following commands:
+
+```sh
 export RABBITMQ_CONTAINER_NAME=rabbitmq
 export RABBITMQ_PORT=5672
 docker run -p ${RABBITMQ_PORT}:5672 --detach --name $RABBITMQ_CONTAINER_NAME rabbitmq:3.13-management
 ```
 
 ## Backend server
-```
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-```
 
-To dockerize and run Django web server (Update setting paths):
-
-```
+To dockerize and run the Django web server, update the settings paths and run the following commands:
+```sh
 cd restaurant_backend
 docker build -t onurklngc/restaurant-backend:0.0.1 .
 
@@ -51,8 +42,8 @@ docker run -p ${RESTAURANT_BACKEND_PORT}:8000 --name $RESTAURANT_BACKEND_CONTAIN
 onurklngc/restaurant-backend:0.0.1
 ```
 
-For the first time installation, run the following commands:
-```
+For the first-time installation, run the following commands to initialize the database and create a superuser:
+```sh
 docker exec -i $RESTAURANT_BACKEND_CONTAINER_NAME python manage.py migrate
 docker exec -it $RESTAURANT_BACKEND_CONTAINER_NAME python manage.py createsuperuser
 docker exec -i $MYSQL_CONTAINER_NAME mysql -uroot -p$MYSQL_ROOT_PASSWORD restaurant < scripts/populate_data.sql
@@ -61,9 +52,8 @@ docker exec -i $MYSQL_CONTAINER_NAME mysql -uroot -p$MYSQL_ROOT_PASSWORD restaur
 
 ## Order Processor App
 
-To dockerize and run order processor application (Update setting paths):
-
-```
+To dockerize and run the order processor application, update the settings paths and run the following commands:
+```sh
 cd order_processor
 export ORDER_PROCESSOR_CONTAINER_NAME=order-processor
 export ORDER_PROCESSOR_SETTINGS_PATH=/home/onur/Coding/repos/assignment-django/order_processor/settings.py
@@ -78,7 +68,10 @@ docker run --name $ORDER_PROCESSOR_CONTAINER_NAME onurklngc/order-processor:0.0.
 
 
 ## Testing
-```
+To run tests for the ordering app, use the following command:
+
+
+```sh
 cd restaurant_backend
 python manage.py test ordering.tests
 ```
